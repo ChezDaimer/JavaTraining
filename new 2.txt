@@ -1,0 +1,63 @@
+"total sale of today: join v_dwr_operation_type op on acc.operation_type_id = op.operation_type_id 
+join opt_v_settlement sttl on sttl.DOC_IDT = dwf_account_entry.primary_doc_idt
+join dwd_institution fi on fi.id = dwf_account_entry.institution_id
+and fi.code = &bank_code 
+and op.class_code = 'BASE_REPORTS' and op.type_code = 'ACQ_TRANSACTIONS'
+and sttl.sttl_type in ('TRANS')
+and op.code in ('RETAIL','CASHBACK','CREDIT_REV') and opt_v_transaction_stmt.banking_date = &report_date
+
+XLS: to be added after configuration
+
+Sum of refund transaction: join v_dwr_operation_type op on acc.operation_type_id = op.operation_type_id 
+join opt_v_settlement sttl on sttl.DOC_IDT = dwf_account_entry.primary_doc_idt
+join dwd_institution fi on fi.id = dwf_account_entry.institution_id
+and fi.code = &bank_code 
+and op.class_code = 'BASE_REPORTS' and op.type_code = 'ACQ_TRANSACTIONS'
+and sttl.sttl_type in ('TRANS')
+and op.code in ('REFUND','RETAIL_REV') and opt_v_transaction_stmt.banking_date = &report_date
+
+sum of discount transaction: join v_dwr_operation_type op on acc.operation_type_id = op.operation_type_id 
+join opt_v_settlement sttl on sttl.DOC_IDT = dwf_account_entry.primary_doc_idt
+join dwd_institution fi on fi.id = dwf_account_entry.institution_id
+join dwd_card_brand br on dwf_transaction.card_brand_id = br.ID 
+and   and br.payment_scheme_code = 'ME'
+and br.record_date_to > sysdate and br.record_date_from < sysdate
+and fi.code = &bank_code 
+and op.class_code = 'BASE_REPORTS' and op.type_code = 'ACQ_TRANSACTIONS'
+and sttl.sttl_type in ('COMM')
+and op.code in ('RETAIL','REFUND','CASHBACK') and opt_v_transaction_stmt.banking_date = &report_date
+
+Sum of all transaction fee: join v_dwr_operation_type op on dwf_account_entry.operation_type_id = op.operation_type_id 
+join opt_v_settlement on opt_v_settlement.DOC_IDT = dwf_account_entry.primary_doc_idt
+join dwd_device on dwd_device.main_contract_idt = dwf_account_entry.contract_idt 
+join dwd_institution fi on fi.id = dwf_account_entry.institution_id
+and fi.code = &bank_code 
+and op.class_code = 'BASE_REPORTS' and op.type_code = 'ACQ_TRANSACTIONS'
+and op.code in (
+'COMMISSION',
+'COMMISSION_REV'
+)
+and sttl.sttl_type in ( 'FEE') and dwf_account_entry.banking_date = &report_date
+
+Sum of all membership fee: join v_dwr_operation_type op on dwf_account_entry.operation_type_id = op.operation_type_id 
+join opt_v_settlement on opt_v_settlement.DOC_IDT = dwf_account_entry.primary_doc_idt
+join dwd_device on dwd_device.main_contract_idt = dwf_account_entry.contract_idt 
+join dwd_institution fi on fi.id = dwf_account_entry.institution_id
+and fi.code = &bank_code 
+and op.class_code = 'BASE_REPORTS' and op.type_code = 'ACQ_TRANSACTIONS'
+and op.code in (
+'MMF_FEE')
+and sttl.sttl_type in ( 'FEE') and dwf_account_entry.banking_date = &report_date
+
+Sum of statement fee:  join v_dwr_operation_type op on dwf_account_entry.operation_type_id = op.operation_type_id 
+join opt_v_settlement on opt_v_settlement.DOC_IDT = dwf_account_entry.primary_doc_idt
+join dwd_device on dwd_device.main_contract_idt = dwf_account_entry.contract_idt 
+join dwd_institution fi on fi.id = dwf_account_entry.institution_id
+and fi.code = &bank_code 
+and op.class_code = 'BASE_REPORTS' and op.type_code = 'ACQ_TRANSACTIONS'
+and op.code in (
+'STATEMENT_FEE')
+and sttl.sttl_type in ( 'FEE') and dwf_account_entry.banking_date = &report_date
+XLS discount: to be added after configuration
+
+"

@@ -24,12 +24,12 @@ public class Main {
 		  
 		  } else { break; }
 		  
+		  
 		  console.clearConsoleBuffer();
 		  
 	  } ;
 	  
-	  console.printMessage("End....");
-	  console.clearConsoleBuffer();
+	  console.printMessage("End....");	  
 	  console.close();
 	  
 	  
